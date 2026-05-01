@@ -13,8 +13,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "لوحة التحكم",
+  title: "ws-dashboard",
   description: "إدارة المشاريع والعملاء",
+  icons: {
+    icon: "/WS-png-W-01.png",
+  },
 };
 
 export default function RootLayout({ children }) {

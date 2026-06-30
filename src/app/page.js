@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
+import HeroVideoForm from '@/components/HeroVideoForm'
 
 export default async function Home() {
   const supabase = await createClient()
@@ -11,6 +12,9 @@ export default async function Home() {
   if (!user) {
     return redirect('/login')
   }
+
+  const { data: heroVideoData } = await supabase.from('hero_video').select('video_url').limit(1).maybeSingle()
+  const currentVideoUrl = heroVideoData?.video_url || ''
 
   const handleSignOut = async () => {
     'use server'
@@ -53,6 +57,12 @@ export default async function Home() {
             <a href="/clients" className="inline-block px-5 py-2.5 text-sm font-bold text-black border-2 border-black rounded hover:bg-black hover:text-white transition-colors">
               الذهاب إلى العملاء
             </a>
+          </div>
+          
+          <div className="p-8 bg-white border border-gray-200 shadow-sm rounded-xl hover:shadow-md transition-shadow md:col-span-2">
+            <h2 className="mb-4 text-2xl font-bold text-black">رابط فيديو البداية (Hero Video)</h2>
+            <p className="mb-6 text-gray-600">تعديل رابط الفيديو المعروض في بداية الصفحة الرئيسية للموقع.</p>
+            <HeroVideoForm currentVideoUrl={currentVideoUrl} />
           </div>
         </main>
       </div>
